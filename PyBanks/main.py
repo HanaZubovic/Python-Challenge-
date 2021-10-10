@@ -3,7 +3,7 @@ import csv
 
 #Create the space in memory and join it
 
-budget_file_path = os.path.join(os.path.dirname(__file__),"Resources","budget_data.csv").replace("\\", "/")
+budget_file_path = os.path.join("Resources","budget_data.csv").replace("\\", "/")
 print(budget_file_path)
 
 #Creates a bookmark for the program to look to when we reference data
