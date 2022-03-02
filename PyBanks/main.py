@@ -3,12 +3,11 @@ import csv
 
 #Create the space in memory and join it
 
-budget_file_path = os.path.join("Resources","budget_data.csv").replace("\\", "/")
-print(budget_file_path)
+budget_file_path = os.path.join("Resources","budget_data.csv")
 
 #Creates a bookmark for the program to look to when we reference data
 
-with open(budget_file_path, "r") as budget_memory:
+with open(budget_file_path) as budget_memory:
     budget_read = csv.reader(budget_memory, delimiter = ',')
 
 # Declaring Variables
@@ -19,8 +18,12 @@ with open(budget_file_path, "r") as budget_memory:
     average_change_pl =0
     increase_profit = 0
     decrease_profit = 0
-    max_date =""
-    min_date =""
+    ch_total = 0
+    inc = ['',0]
+    dec = ['',0]
+
+    # max_date =""
+    # min_date =""
 
     #Total number of months
     #Net Profit & Loss over the entire period
@@ -31,42 +34,40 @@ with open(budget_file_path, "r") as budget_memory:
     past_price = 0
     data_change = []
     next(budget_read)
-    for row in budget_read:
+    for i,row in enumerate(budget_read):
+        # total_months = total_months + 1
         total_months += 1
         net_profit_loss += int(row[1])
-         
         current_price = int(row[1])
         change = current_price - past_price 
         past_price = current_price
-        data_change.append(change)
 
-    #Greatest Increase and Decrease in profits over the enitre period
-        max_d = max(data_change)
-        min_d = min(data_change)
-        if (change == max_d):
-            max_date = row[0]
-        if (change == min_d):
-            min_date = row[0]
-    data_change.pop(0)
-    average = round(sum(data_change) / len(data_change), 2)
- 
-    print("----------------------------------------------------")
-    print ("Financial Analysis")
-    print("----------------------------------------------------")
-    print("Months:", total_months)
-    print(f'Total: ${net_profit_loss}')
-    print(f'Average Change: ${average}')
-    print(f'Greatest Increase in Profit is: {max_date} ${max_d}')
-    print(f'Greatest Decrease in Profit is: {min_date} ${min_d}')
-    print("----------------------------------------------------")
+        if i == 0:
+            change = 0 
+
+        ch_total += change
+
+        # Greatest Increase
+        if change > inc[1]:
+            inc[0] = row[0]
+            inc[1] = change
+        
+        # Greatest Decrease
+        if change < dec[1]:
+            dec[0] = row[0]
+            dec[1] = change
+
+    output = f'''
+    ---------------------------------------------------
+       Financial Analysis
+    ---------------------------------------------------
+    Months: {total_months}
+    Total: ${net_profit_loss:,}
+    Average Change: ${ch_total/(total_months-1):,.2f}
+    Greatest Increase in Profit is: {inc[0]} (${inc[1]:,})
+    Greatest Decrease in Profit is: {dec[0]} (${dec[1]:,})
+    ---------------------------------------------------'''
     
-export_path = os.path.join("analysis", "analysis.txt").replace("\\", "/")
-with open(export_path, "w") as export_mem:
-    export_writer = csv.writer(export_mem)
-    export_writer.writerow(["Financial Analysis"])
-    export_writer.writerow(["----------------------------------------------------"])
-    export_writer.writerow([f"Months:, {total_months}"])
-    export_writer.writerow([f'Total: ${net_profit_loss}'])
-    export_writer.writerow([f'Average Change: ${average}'])
-    export_writer.writerow([f'Greatest Increase in Profit is: {max_date} ${max_d}'])
-    export_writer.writerow([f'Greatest Decrease in Profit is: {min_date} ${min_d}'])
+print(output)
+open('analysis/analysis.txt','w').write(output)
+
