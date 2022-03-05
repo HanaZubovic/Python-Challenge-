@@ -1,7 +1,7 @@
  # Python Challenge - Py Me Up, Charlie
 
 ## The Challenge
-Using two large data sets `PyBank` and `PyPoll`, create a script that summarizes the data and export it to a .txt file. 
+Using two large data sets `PyBank` and `PyPoll`, create a script that summarizes the data and exports the results to a .txt file. 
 
 - Import data from `.csv` files
 - Iterate through the data
