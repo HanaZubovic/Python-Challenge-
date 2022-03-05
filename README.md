@@ -3,10 +3,10 @@
 ## The Challenge
 Using two large data sets `PyBank` and `PyPoll`, create a script that summarizes the data and exports the results to a .txt file. 
 
-- Import data from `.csv` files
-- Iterate through the data
-- Calculate statics such as: sum, mean, max, min
-- Create a `.txt` file that contains a summary of the findings
+- Imported data from `.csv` files
+- Iterated through the data
+- Calculated statics such as: sum, mean, max, min
+- Created a `.txt` file that contains a summary of the findings
 
 ## File Directory:
 
